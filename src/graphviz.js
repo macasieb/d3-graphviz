@@ -102,7 +102,6 @@ export function Graphviz(selection, options) {
                 try {
                     const engine = event.data.options ? event.data.options.engine : 'dot';
                     hpccWasm.graphviz.layout(event.data.dot, "svg", engine).then((svg) => {
-                        console.log('magjac 1100: svg =', svg);
 			if (svg) {
 			    postMessage({
 				type: "done",
