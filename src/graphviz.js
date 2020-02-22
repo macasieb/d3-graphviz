@@ -98,8 +98,22 @@ export function Graphviz(selection, options) {
                 if (event.data.vizURL) {
                     importScripts(event.data.vizURL);
                 }
+                const hpccWasm = self["@hpcc-js/wasm"];
                 try {
-                    var svg = Viz(event.data.dot, event.data.options);
+                    const engine = event.data.options ? event.data.options.engine : 'dot';
+                    hpccWasm.graphviz.layout(event.data.dot, "svg", engine).then((svg) => {
+                        console.log('magjac 1100: svg =', svg);
+			if (svg) {
+			    postMessage({
+				type: "done",
+				svg: svg,
+			    });
+			} else {
+			    postMessage({
+				type: "skip",
+			    });
+			}
+                    });
                 }
                 catch(error) {
                     postMessage({
@@ -107,16 +121,6 @@ export function Graphviz(selection, options) {
                         error: error.message,
                     });
                     return;
-                }
-                if (svg) {
-                    postMessage({
-                        type: "done",
-                        svg: svg,
-                    });
-                } else {
-                    postMessage({
-                        type: "skip",
-                    });
                 }
             }
         `;
