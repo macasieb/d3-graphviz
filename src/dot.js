@@ -24,6 +24,7 @@ export function initViz() {
             // Local URL. Prepend with local domain to be usable in web worker
             vizURL = (new window.URL(vizURL, document.location.href)).href;
         }
+        console.log('magjac 100: Inititalizing hpcc-js-wasm in web worker with empty dot source');
         this._worker.postMessage({dot: "", vizURL: vizURL});
     }
 }
@@ -241,6 +242,7 @@ export default function(src, callback) {
         totalMemory: totalMemory,
     };
     if (this._worker) {
+        console.log('magjac 200: Calling hpcc-js-wasm in web worker with dot source =', src);
         worker.postMessage({
             dot: src,
             options: vizOptions,

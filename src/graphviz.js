@@ -97,11 +97,16 @@ export function Graphviz(selection, options) {
             onmessage = function(event) {
                 if (event.data.vizURL) {
                     importScripts(event.data.vizURL);
+                    console.log('magjac 1000: Imported script', event.data.vizURL);
                 }
                 const hpccWasm = self["@hpcc-js/wasm"];
                 try {
                     const engine = event.data.options ? event.data.options.engine : 'dot';
+                    console.log('magjac 1100: hpccWasm.graphviz.layout =', hpccWasm.graphviz.layout);
+                    console.log('magjac 1200: Calling hpccWasm.graphviz.layout with args:', event.data.dot, "svg", engine);
                     hpccWasm.graphviz.layout(event.data.dot, "svg", engine).then((svg) => {
+                        // FIXME: we never end up here :-(
+                        console.log('magjac 2000: Layout done, svg =', svg);
 			if (svg) {
 			    postMessage({
 				type: "done",
