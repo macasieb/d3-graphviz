@@ -94,10 +94,15 @@ export function Graphviz(selection, options) {
     }
     if (useWorker) {
         var js = `
+            var document = {}; // Workaround for "ReferenceError: document is not defined" in hpccWasm
             onmessage = function(event) {
                 if (event.data.vizURL) {
                     importScripts(event.data.vizURL);
                     console.log('magjac 1000: Imported script', event.data.vizURL);
+                    const hpccWasm = self["@hpcc-js/wasm"];
+                    hpccWasm.wasmFolder(event.data.vizURL.match(/.*\\\//));
+// This is an alternative workaround where wasmFolder() is not needed
+//                    document = {currentScript: {src: event.data.vizURL}};
                 }
                 const hpccWasm = self["@hpcc-js/wasm"];
                 try {
