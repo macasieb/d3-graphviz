@@ -110,7 +110,6 @@ export function Graphviz(selection, options) {
                     console.log('magjac 1100: hpccWasm.graphviz.layout =', hpccWasm.graphviz.layout);
                     console.log('magjac 1200: Calling hpccWasm.graphviz.layout with args:', event.data.dot, "svg", engine);
                     hpccWasm.graphviz.layout(event.data.dot, "svg", engine).then((svg) => {
-                        // FIXME: we never end up here :-(
                         console.log('magjac 2000: Layout done, svg =', svg);
 			if (svg) {
 			    postMessage({
